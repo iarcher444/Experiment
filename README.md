@@ -1,4 +1,4 @@
-# 🍔 SnackChat!!
+# 🍔 SnackChat
 
 ## 📖 User Story
 
