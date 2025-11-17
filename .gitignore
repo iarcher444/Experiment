@@ -1,2 +1,15 @@
-.env
+# Node modules
 node_modules/
+
+# Environment variables
+.env
+
+# Uploaded files (temp)
+uploads/
+
+# Google Cloud service account key
+foodies-478504-a83d17fb8100.json
+
+# Extra safety for sensitive keys
+*.pem
+*.key
