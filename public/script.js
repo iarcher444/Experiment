@@ -1,5 +1,3 @@
-// script.js
-
 $(document).ready(function () {
   const $form = $('#imageUploadForm');
   const $foodInfo = $('#foodInfo');
@@ -30,7 +28,7 @@ $(document).ready(function () {
 
       const data = await response.json();
 
-      // Food info box: what we detected
+      // Food info box
       $foodInfo.text(`Detected food: ${data.detectedFood || 'Unknown'}`);
 
       // Nutrition facts box
@@ -60,7 +58,7 @@ $(document).ready(function () {
         $nutritionFacts.text('No nutrition data found.');
       }
 
-      // Extra info: show all labels from Vision
+      // Extra info: shows all labels from Vision
       if (data.labels && data.labels.length > 0) {
         $extraInfo.html('Google Vision labels:<br>' + data.labels.join(', '));
       } else {

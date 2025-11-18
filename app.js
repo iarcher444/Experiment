@@ -45,7 +45,7 @@ mongoose.connect(process.env.MONGODB_URI, {
   .then(() => console.log('MongoDB Connected Successfully'))
   .catch(err => console.error('MongoDB Connection Error:', err));
 
-// ---------------- USDA NUTRITION HELPERS ----------------
+// ---------------- USDA NUTRITION ----------------
 
 async function getNutritionFromUSDA(foodName) {
   const apiKey = process.env.USDA_API_KEY;
@@ -76,7 +76,7 @@ async function getNutritionFromUSDA(foodName) {
 
   const food = data.foods[0];
 
-  // Pull some nice fields to display
+  // fields to display
   const nutrients = {};
   if (food.foodNutrients) {
     for (const n of food.foodNutrients) {
@@ -98,7 +98,7 @@ async function getNutritionFromUSDA(foodName) {
   };
 }
 
-// Labels like "Food", "Ingredient" are too generic for USDA searches
+// Removes labels like "Food", "Ingredient" to avoid generic results for USDA searches
 const GENERIC_LABELS = new Set([
   'Food',
   'Ingredient',
@@ -118,7 +118,7 @@ async function getBestNutritionForLabels(labels) {
     return { labelUsed: null, nutrition: null };
   }
 
-  // Try each label, skipping the generic ones
+  // Tries each label and skips the generic ones
   for (const label of labels) {
     if (GENERIC_LABELS.has(label)) continue;
 
@@ -128,7 +128,7 @@ async function getBestNutritionForLabels(labels) {
     }
   }
 
-  // If everything failed, fall back to the very first label
+  // If all failed, falls back to first label
   const fallbackLabel = labels[0];
   const fallbackNutrition = await getNutritionFromUSDA(fallbackLabel);
   return { labelUsed: fallbackLabel, nutrition: fallbackNutrition };
@@ -148,11 +148,11 @@ app.post('/api/analyze-image', upload.single('image'), async (req, res) => {
 
     const imagePath = req.file.path;
 
-    // 1. Google Vision: label detection
+    // Google Vision: label detection
     const [result] = await visionClient.labelDetection(imagePath);
     const labels = result.labelAnnotations.map(label => label.description);
 
-    // 2. Use ALL labels to find the best one for USDA
+    // Uses ALL labels to find the best one for USDA
     let detectedFood = 'Unknown food';
     let nutrition = null;
 
