@@ -28,28 +28,11 @@
         </div>
 
         <!-- Image Upload Section -->
-        <div class="text-center mb-3">
-            <form id="imageUploadForm" enctype="multipart/form-data" class="mx-auto" style="max-width: 400px;">
-                <input
-                    type="file"
-                    id="imageInput"
-                    name="image"           <!-- important: matches upload.single('image') -->
-                    accept="image/*"
-                    class="form-control mb-2"
-                    required>
-                <button type="submit" class="btn btn-primary btn-lg w-100">
-                    📤 Upload Image
-                </button>
+        <div class="text-center mb-4">
+            <form id="imageUploadForm" enctype="multipart/form-data">
+                <input type="file" id="imageInput" name="image" accept="image/*" class="form-control mb-2" required>
+                <button type="submit" class="btn btn-primary btn-lg">📤 Upload Image</button>
             </form>
-            <p id="error-text" class="text-danger mt-2"></p>
-        </div>
-
-        <!-- Loading Icon -->
-        <div id="loadingSpinner" class="text-center my-3" style="display: none;">
-            <div class="spinner-border text-primary" role="status">
-                <span class="visually-hidden">Loading...</span>
-            </div>
-            <p class="mt-2 text-muted mb-0">Analyzing your food...</p>
         </div>
 
         <div class="container text-center mt-4">
