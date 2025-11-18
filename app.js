@@ -7,13 +7,32 @@ const path = require('path');
 const multer = require('multer');
 const fetch = require('node-fetch');
 const vision = require('@google-cloud/vision');
+
+let visionClient;
+
+if (process.env.GOOGLE_VISION_KEY) {
+  // Render / env-based credentials
+  try {
+    const creds = JSON.parse(process.env.GOOGLE_VISION_KEY);
+    visionClient = new vision.ImageAnnotatorClient({
+      credentials: creds
+    });
+    console.log('Vision client initialized from GOOGLE_VISION_KEY');
+  } catch (err) {
+    console.error('Failed to parse GOOGLE_VISION_KEY:', err);
+  }
+} else {
+  // Local dev: use GOOGLE_APPLICATION_CREDENTIALS file
+  visionClient = new vision.ImageAnnotatorClient();
+  console.log('Vision client initialized using default credentials');
+}
+
 const fs = require('fs');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 const upload = multer({ dest: 'uploads/' });
-const visionClient = new vision.ImageAnnotatorClient();
 
 app.use(cors());
 app.use(express.json());
