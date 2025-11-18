@@ -20,9 +20,10 @@
         <!-- Header -->
         <div class="app-header text-center">
             <h1 class="display-4">Foodies: For all your food needs</h1>
-            <p class="lead">AI-Powered Food Insights</p>
+            <p class="lead">Full Stack CRUD Application</p>
             <p class="text-muted mb-0">
-                Upload an image of a food and get information about that food, including recipes and nutrition facts!
+                Upload an image of a food and get information abuout that food including recipes,
+                nutrition facts, and recipces that are connected to this food!
             </p>
         </div>
 
@@ -37,7 +38,7 @@
                     class="form-control mb-2"
                     required>
                 <button type="submit" class="btn btn-primary btn-lg w-100">
-                    📤 Upload Image & Analyze
+                    📤 Upload Image
                 </button>
             </form>
             <p id="error-text" class="text-danger mt-2"></p>
@@ -48,7 +49,7 @@
             <div class="spinner-border text-primary" role="status">
                 <span class="visually-hidden">Loading...</span>
             </div>
-            <p class="mt-2 text-muted mb-0">Analyzing your food image...</p>
+            <p class="mt-2 text-muted mb-0">Analyzing your food...</p>
         </div>
 
         <div class="container text-center mt-4">
@@ -56,35 +57,28 @@
             <!-- Food Information -->
             <div class="mb-4">
                 <h4>🍎 Food Information</h4>
-                <div class="border rounded p-3"
-                    style="height: 150px; background-color: white; overflow-y: auto; text-align: left;">
-                    <p id="foodInfo" class="mb-0 text-muted">
-                        Upload a food image to see details about it.
-                    </p>
+                <div class="border rounded p-3" style="height: 150px; background-color: white; overflow-y: auto; text-align: left;">
+                    <p></p>
                 </div>
             </div>
 
             <!-- Food Nutrition Facts -->
             <div class="mb-4">
                 <h4>🥦 Food Nutrition Facts</h4>
-                <div class="border rounded p-3"
-                    style="height: 150px; background-color: white; overflow-y: auto; text-align: left;">
-                    <p id="nutritionFacts" class="mb-0 text-muted">
-                        Nutrition details will appear here.
-                    </p>
+                <div class="border rounded p-3" style="height: 150px; background-color: white; overflow-y: auto; text-align: left;">
+                    <p></p>
                 </div>
             </div>
 
-            <!-- Food Extra Info / Labels -->
+            <!-- Food Recipes -->
             <div class="mb-4">
-                <h4>🍽️ Food Details</h4>
-                <div class="border rounded p-3"
-                    style="height: 150px; background-color: white; overflow-y: auto; text-align: left;">
-                    <p id="extraInfo" class="mb-0 text-muted">
-                        Additional details and labels will appear here.
-                    </p>
+                <h4>🍽️ Food Recipes</h4>
+                <div class="border rounded p-3" style="height: 150px; background-color: white; overflow-y: auto; text-align: left;">
+                    <p></p>
                 </div>
             </div>
+
+        </div>
 
         </div>
 
