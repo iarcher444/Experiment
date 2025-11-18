@@ -32,7 +32,7 @@
                 <input
                     type="file"
                     id="imageInput"
-                    name="foodImage"
+                    name="image"           <!-- important: matches upload.single('image') -->
                     accept="image/*"
                     class="form-control mb-2"
                     required>
@@ -58,7 +58,7 @@
                 <h4>🍎 Food Information</h4>
                 <div class="border rounded p-3"
                     style="height: 150px; background-color: white; overflow-y: auto; text-align: left;">
-                    <p id="food-info" class="mb-0 text-muted">
+                    <p id="foodInfo" class="mb-0 text-muted">
                         Upload a food image to see details about it.
                     </p>
                 </div>
@@ -69,20 +69,20 @@
                 <h4>🥦 Food Nutrition Facts</h4>
                 <div class="border rounded p-3"
                     style="height: 150px; background-color: white; overflow-y: auto; text-align: left;">
-                    <ul id="nutrition-list" class="mb-0 text-muted">
-                        <li>Nutrition details will appear here.</li>
-                    </ul>
+                    <p id="nutritionFacts" class="mb-0 text-muted">
+                        Nutrition details will appear here.
+                    </p>
                 </div>
             </div>
 
-            <!-- Food Recipes -->
+            <!-- Food Extra Info / Labels -->
             <div class="mb-4">
-                <h4>🍽️ Food Recipes</h4>
+                <h4>🍽️ Food Details</h4>
                 <div class="border rounded p-3"
                     style="height: 150px; background-color: white; overflow-y: auto; text-align: left;">
-                    <ul id="recipes-list" class="mb-0 text-muted">
-                        <li>Recipe suggestions will appear here.</li>
-                    </ul>
+                    <p id="extraInfo" class="mb-0 text-muted">
+                        Additional details and labels will appear here.
+                    </p>
                 </div>
             </div>
 
@@ -110,5 +110,6 @@
 </body>
 
 </html>
+
 
 
