@@ -7,6 +7,7 @@ const path = require('path');
 const multer = require('multer');
 const fetch = require('node-fetch');
 const vision = require('@google-cloud/vision');
+const fs = require('fs');
 
 let visionClient;
 
@@ -27,8 +28,6 @@ if (process.env.GOOGLE_VISION_KEY) {
   console.log('Vision client initialized using default credentials');
 }
 
-const fs = require('fs');
-
 const app = express();
 const PORT = process.env.PORT || 3000;
 
@@ -43,8 +42,10 @@ mongoose.connect(process.env.MONGODB_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true
 })
-.then(() => console.log('MongoDB Connected Successfully'))
-.catch(err => console.error('MongoDB Connection Error:', err));
+  .then(() => console.log('MongoDB Connected Successfully'))
+  .catch(err => console.error('MongoDB Connection Error:', err));
+
+// ---------------- USDA NUTRITION HELPERS ----------------
 
 async function getNutritionFromUSDA(foodName) {
   const apiKey = process.env.USDA_API_KEY;
@@ -97,6 +98,44 @@ async function getNutritionFromUSDA(foodName) {
   };
 }
 
+// Labels like "Food", "Ingredient" are too generic for USDA searches
+const GENERIC_LABELS = new Set([
+  'Food',
+  'Ingredient',
+  'Cuisine',
+  'Dish',
+  'Fast food',
+  'Recipe',
+  'Junk food',
+  'Comfort food',
+  'Snack',
+  'Baked goods',
+  'Staple food'
+]);
+
+async function getBestNutritionForLabels(labels) {
+  if (!labels || labels.length === 0) {
+    return { labelUsed: null, nutrition: null };
+  }
+
+  // Try each label, skipping the generic ones
+  for (const label of labels) {
+    if (GENERIC_LABELS.has(label)) continue;
+
+    const nutrition = await getNutritionFromUSDA(label);
+    if (nutrition) {
+      return { labelUsed: label, nutrition };
+    }
+  }
+
+  // If everything failed, fall back to the very first label
+  const fallbackLabel = labels[0];
+  const fallbackNutrition = await getNutritionFromUSDA(fallbackLabel);
+  return { labelUsed: fallbackLabel, nutrition: fallbackNutrition };
+}
+
+// ---------------- ROUTES ----------------
+
 const movieRoutes = require('./routes/movieRoutes');
 app.use('/api', movieRoutes);
 
@@ -113,17 +152,21 @@ app.post('/api/analyze-image', upload.single('image'), async (req, res) => {
     const [result] = await visionClient.labelDetection(imagePath);
     const labels = result.labelAnnotations.map(label => label.description);
 
-    // pick the first label as best guess
-    const bestGuess = labels[0] || 'Unknown food';
+    // 2. Use ALL labels to find the best one for USDA
+    let detectedFood = 'Unknown food';
+    let nutrition = null;
 
-    // 2. USDA: nutrition lookup
-    const nutrition = await getNutritionFromUSDA(bestGuess);
+    if (labels.length > 0) {
+      const { labelUsed, nutrition: bestNutrition } = await getBestNutritionForLabels(labels);
+      detectedFood = labelUsed || labels[0] || 'Unknown food';
+      nutrition = bestNutrition;
+    }
 
     // clean up the uploaded file
     fs.unlink(imagePath, () => {});
 
     res.json({
-      detectedFood: bestGuess,
+      detectedFood,
       labels,
       nutrition
     });
@@ -132,7 +175,6 @@ app.post('/api/analyze-image', upload.single('image'), async (req, res) => {
     res.status(500).json({ message: 'Error analyzing image' });
   }
 });
-
 
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'josh.html'));
@@ -146,3 +188,4 @@ app.use((err, req, res, next) => {
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
+
