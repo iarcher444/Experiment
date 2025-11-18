@@ -22,20 +22,27 @@
             <h1 class="display-4">Foodies: For all your food needs</h1>
             <p class="lead">Full Stack CRUD Application</p>
             <p class="text-muted mb-0">
-                Upload an image of a food and get information abuout that food including recipes,
-                nutrition facts, and recipces that are connected to this food!
+                Upload an image of a food and get information about that food including recipes,
+                nutrition facts, and recipes that are connected to this food!
             </p>
         </div>
 
         <!-- Image Upload Section -->
-        <div class="text-center mb-4">
-            <form id="imageUploadForm" enctype="multipart/form-data">
-                <input type="file" id="imageInput" name="image" accept="image/*" class="form-control mb-2" required>
-                <button type="submit" class="btn btn-primary btn-lg">📤 Upload Image</button>
+        <div class="text-center mb-3">
+            <form id="imageUploadForm" enctype="multipart/form-data" class="mx-auto" style="max-width: 400px;">
+                <input
+                    type="file"
+                    id="imageInput"
+                    name="image"
+                    accept="image/*"
+                    class="form-control mb-2"
+                    required>
+                <button type="submit" class="btn btn-primary btn-lg w-100">
+                    📤 Upload Image & Analyze
+                </button>
             </form>
+            <p id="error-text" class="text-danger mt-2"></p>
         </div>
-
-        <div class="container text-center mt-4">
 
             <!-- Food Information -->
             <div class="mb-4">
