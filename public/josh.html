@@ -33,7 +33,7 @@
                 <input
                     type="file"
                     id="imageInput"
-                    name="image"
+                    name="image"           <!-- important: matches upload.single('image') -->
                     accept="image/*"
                     class="form-control mb-2"
                     required>
@@ -43,6 +43,16 @@
             </form>
             <p id="error-text" class="text-danger mt-2"></p>
         </div>
+
+        <!-- Loading Icon -->
+        <div id="loadingSpinner" class="text-center my-3" style="display: none;">
+            <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+            <p class="mt-2 text-muted mb-0">Analyzing your food image...</p>
+        </div>
+
+        <div class="container text-center mt-4">
 
             <!-- Food Information -->
             <div class="mb-4">
@@ -70,8 +80,6 @@
 
         </div>
 
-        </div>
-
         <footer class="text-center">
             <p class="mb-2">
                 <strong>Created by:</strong> Joshua Bradley, Matthew Andrews, Isabella Archer, Paridhi Malhotra
@@ -94,6 +102,7 @@
 </body>
 
 </html>
+
 
 
 
